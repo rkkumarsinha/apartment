@@ -12,10 +12,14 @@ class Frontend extends ApiFrontend {
         // you can also use Layout_Fluid
 
         $this->add('jUI');
+        
+        $this->dbConnect();
+
         $this->api->pathfinder
             ->addLocation(array(
                 'addons' => array('vendor','shared/addons2','shared/addons'),
                 'css' => array('vendor','shared/templates/assets','templates/assets'),
+                'js' => array('vendor','shared/templates/assets/js','templates/assets/js'),
             ))
             ->setBasePath($this->pathfinder->base_location->getPath() );
     }
