@@ -478,3 +478,13 @@ body .navbar-transparent {
 .field-error-template.atk-form-error{
   color: #f44336;
 }
+
+.brand h1, h3{
+  color:#ffffff !important;
+}
+
+.btn.atk-button{
+  padding:12px 30px !important;
+  border-radius:5px !important;
+  border:0px solid red !important;
+}
