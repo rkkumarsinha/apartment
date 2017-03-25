@@ -6,6 +6,11 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'EasyPeasyICS' => $vendorDir . '/phpmailer/phpmailer/extras/EasyPeasyICS.php',
+    'PHPMailer' => $vendorDir . '/phpmailer/phpmailer/class.phpmailer.php',
+    'PHPMailerOAuth' => $vendorDir . '/phpmailer/phpmailer/class.phpmaileroauth.php',
+    'PHPMailerOAuthGoogle' => $vendorDir . '/phpmailer/phpmailer/class.phpmaileroauthgoogle.php',
+    'POP3' => $vendorDir . '/phpmailer/phpmailer/class.pop3.php',
     'Pest' => $vendorDir . '/educoder/pest/Pest.php',
     'PestJSON' => $vendorDir . '/educoder/pest/PestJSON.php',
     'PestXML' => $vendorDir . '/educoder/pest/PestXML.php',
@@ -27,4 +32,7 @@ return array(
     'Pest_ServerError' => $vendorDir . '/educoder/pest/Pest.php',
     'Pest_Unauthorized' => $vendorDir . '/educoder/pest/Pest.php',
     'Pest_UnknownResponse' => $vendorDir . '/educoder/pest/Pest.php',
+    'SMTP' => $vendorDir . '/phpmailer/phpmailer/class.smtp.php',
+    'ntlm_sasl_client_class' => $vendorDir . '/phpmailer/phpmailer/extras/ntlm_sasl_client.php',
+    'phpmailerException' => $vendorDir . '/phpmailer/phpmailer/class.phpmailer.php',
 );
