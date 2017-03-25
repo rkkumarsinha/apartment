@@ -1,0 +1,5 @@
+config-default.php
+config-auto.php
+/upload/*
+.zip
+/vendor/*
