@@ -8,6 +8,9 @@ class page_home extends Page{
         $this->app->stickyGET('param1');
         $this->app->stickyGET('param2');
 
+        $crud = $this->add('CRUD');
+        $crud->setModel('User');
+
         // $this->app->layout->template->tryDel('banner_section');
 
         // $this->app->stickyGET('reload');

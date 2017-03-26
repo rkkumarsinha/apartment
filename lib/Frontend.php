@@ -15,12 +15,24 @@ class Frontend extends ApiFrontend {
         
         $this->dbConnect();
 
+        $this->addLocation();
+
+        $auth=$this->add('Auth');
+        $auth->usePasswordEncryption();
+        $auth->setModel('User','username','password');
+        // $auth->check();
+        
+    }
+
+    function addLocation(){
         $this->api->pathfinder
             ->addLocation(array(
                 'addons' => array('vendor','shared/addons2','shared/addons'),
+                'addons' => array('vendor','shared/addons2','shared/addons'),
                 'css' => array('vendor','shared/templates/assets','templates/assets'),
                 'js' => array('vendor','shared/templates/assets/js','templates/assets/js'),
+                'php' => array('vendor','shared/lib'),
             ))
-            ->setBasePath($this->pathfinder->base_location->getPath() );
+            ->setBasePath($this->pathfinder->base_location->getPath() );            
     }
 }
