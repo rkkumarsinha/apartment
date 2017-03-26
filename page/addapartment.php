@@ -1,5 +1,5 @@
 <?php
-class page_addapartment extends base_Page{
+class page_addapartment extends basePage{
 
     public $title='Add Your Apartment';
     public $subtitle='';

@@ -1,5 +1,5 @@
 <?php
-class page_index extends base_Page
+class page_index extends basePage
 {
     function init()
     {

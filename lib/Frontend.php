@@ -31,7 +31,7 @@ class Frontend extends ApiFrontend {
                 'addons' => array('vendor','shared/addons2','shared/addons'),
                 'css' => array('vendor','shared/templates/assets','templates/assets'),
                 'js' => array('vendor','shared/templates/assets/js','templates/assets/js'),
-                'php' => array('vendor','shared/lib'),
+                'php' => array('vendor','shared/lib')
             ))
             ->setBasePath($this->pathfinder->base_location->getPath() );            
     }
