@@ -1,5 +1,5 @@
 <?php
-class page_home extends Page{
+class page_home extends base_Page{
 
     function init(){
 

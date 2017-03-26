@@ -1,9 +1,12 @@
 <?php
-class page_index extends Page
+class page_index extends base_Page
 {
     function init()
     {
         parent::init();
+
+        $this->app->layout->template->trySet('title','`R`-Apartment.');
+        $this->app->layout->template->trySet('subtitle','your apartment buddy.');
 
         // setting up material class
         

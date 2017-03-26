@@ -479,7 +479,7 @@ body .navbar-transparent {
   color: #f44336;
 }
 
-.brand h1, h3{
+.brand h1, .brand h3{
   color:#ffffff !important;
 }
 
@@ -488,3 +488,7 @@ body .navbar-transparent {
   border-radius:5px !important;
   border:0px solid red !important;
 }
+
+/*.r-material-form .atk-row{
+  margin-left: 0px !important;
+}*/
