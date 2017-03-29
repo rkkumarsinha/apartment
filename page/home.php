@@ -7,9 +7,11 @@ class page_home extends basePage{
     	
         $this->app->stickyGET('param1');
         $this->app->stickyGET('param2');
-
-        $crud = $this->add('CRUD');
-        $crud->setModel('User');
+        $this->add('View_Info')->set($_GET['param1']);
+        $this->add('View_Info')->set($_GET['param2']);
+        $this->add('View_Info')->set($_GET['param3']);
+        // $crud = $this->add('CRUD');
+        // $crud->setModel('User');
 
         // $this->app->layout->template->tryDel('banner_section');
 

@@ -1,7 +1,7 @@
 <?php
 
 class Admin extends App_Frontend {
-    public $title = 'Agile Toolkit™ Admin';
+    public $title = 'Apartment Buddy';
 
     private $controller_install_addon;
 
@@ -18,13 +18,17 @@ class Admin extends App_Frontend {
     public function init()
     {
         parent::init();
-
         $this->api->pathfinder
             ->addLocation(array(
                 'addons' => array('vendor','shared/addons2','shared/addons'),
             ))
             ->setBasePath($this->pathfinder->base_location->getPath() . '/..');
 
+        $this->dbConnect();
+        
+        $this->add('jUI');
+
+            
         $this->add($this->layout_class);
 
         $this->menu = $this->layout->addMenu('Menu_Vertical');
@@ -32,6 +36,13 @@ class Admin extends App_Frontend {
 
         $m = $this->layout->addFooter('Menu_Horizontal');
         $m->addItem('foobar');
+
+        $this->initTopMenu();
     }
 
+    function initTopMenu(){
+
+        $top_menu=$this->layout->add('Menu_Horizontal',null,'Top_Menu');
+        $top_menu->addItem(['Configuration','icon'=>'ajust'],'/configuration');
+    }
 }

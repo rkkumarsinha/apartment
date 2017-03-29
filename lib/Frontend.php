@@ -4,10 +4,6 @@ class Frontend extends ApiFrontend {
     function init() {
         parent::init();
 
-        $this->add('Controller_PatternRouter')
-			->link('home', ['param1','param2'])
-			->route();
-
         $this->add('Layout_Apartment');
         // you can also use Layout_Fluid
 
@@ -20,8 +16,13 @@ class Frontend extends ApiFrontend {
         $auth=$this->add('Auth');
         $auth->usePasswordEncryption();
         $auth->setModel('User','username','password');
-        // $auth->check();
         
+        $this->add('Controller_PatternRouter')
+            ->link('home', ['param1','param2','param3'])
+            // ->link('udaipur', ['param1','param2'])
+            ->route();
+        // $auth->check();
+        // throw new \Exception('base_url = '.$this->app->pm->base_url." path = ".$this->app->pm->base_path." page = ".$this->app->pm->page." argument=");
     }
 
     function addLocation(){
