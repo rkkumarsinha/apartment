@@ -10,43 +10,55 @@ class page_addapartment extends basePage{
         $this->app->layout->template->trySet('title','Add Your Apartment');
         $this->app->layout->template->trySet('subtitle','');
 
-        $form = $this->add('Form',null,'registration_form',['form/stackedWithFloatingLabel']);
-        $apartment_section = $form->add('View_FormGroup');
+        $form = $this->add('Form',null,'registration_form',['form/empty']);
+        $add_layout = $form->add('View',null,null,['form/addapartment']);
+        $form->setLayout($add_layout);
+        $form->addClass('material_form');
 
-        $apartment_section->add('View')->setElement('h3')->set('Apartment Information');
-        $col = $apartment_section->add('Columns');
-        // apartment section
-        $col1 = $col->addColumn(12);
-        $col2 = $col->addColumn(12);
-        $col3 = $col->addColumn(3);
-        $col4 = $col->addColumn(3);
-        $col5 = $col->addColumn(3);
-        $col6 = $col->addColumn(3);
+        $form->addField('apartment_name')->validate('required');
+        $form->addField('address')->validate('required');
+
+        $country_field = $form->addField('DropDown','country');
+        $country_field->validate('required')->setEmptyText('select country');
+        $country_field->setModel('ActiveCountry');
+
+        $state_model = $this->add('Model_ActiveState');
         
-        $col1->addField('apartment_name')->validate('required');
-        $col2->addField('address')->validate('required');
-        $col3->addField('country')->validate('required');
-        $col4->addField('state')->validate('required');
-        $col5->addField('city')->validate('required');
-        $col6->addField('pincode')->validate('required');
+        $state_field = $form->addField('DropDown','state');
+        $state_field->validate('required')->setEmptyText('select state');
+        
+        // reload data
+        if($country_id = $this->app->stickyGET('country_id')){
+            $state_model->addCondition('country_id',$country_id);
+        }
+        $state_field->setModel($state_model);
+
+
+        $city_model = $this->add('Model_ActiveCity');
+        $city_field = $form->addField('DropDown','city');
+        $city_field->validate('required')->setEmptyText('select city');
+        
+        // // reload data
+        if($state_id = $this->app->stickyGET('state_id')){
+            $city_model->addCondition('state_id',$state_id);
+        }
+        $city_field->setModel($city_model);
+
+        $form->addField('pincode')->validate('required');
 
         // admin section
-        $admin_section = $form->add('View_FormGroup');
-        $admin_section->add('View')->setElement('h3')->set('Apartment Admin Information');
-
-        $col2 = $admin_section->add('Columns');
-        $admin_col1 = $col2->addColumn(12);
-        $admin_col2 = $col2->addColumn(6);
-        $admin_col3 = $col2->addColumn(6);
+        $form->addField('contact_persion_name')->validate('required');
+        $form->addField('email_id')->validate('required');
+        $form->addField('mobile_no')->validate('required');
+        $form->addField('username')->validate('required');
+        $form->addField('password','password')->validate('required');
 
 
-        $admin_col1->addField('contact_persion_name')->validate('required');
-        $admin_col2->addField('email_id')->validate('required');
-        $admin_col3->addField('mobile_no')->validate('required');
-        $admin_col2->addField('username')->validate('required');
-        $admin_col3->addField('password')->validate('required');
+        // $country_field->js('change',$form->js()->atk4_form('reloadField','state',[$this->app->url(),'country_id'=>$country_field->js()->val()]));
+        $country_field->js('change',$state_field->js()->reload(null,null,[$this->app->url(null,['cut_object'=>$state_field->name]),'country_id'=>$country_field->js()->val()]));
+        $state_field->js('change',$city_field->js()->reload(null,null,[$this->app->url(null,['cut_object'=>$city_field->name]),'state_id'=>$state_field->js()->val()]));
 
-        $form->addSubmit('Submit Your Apartment');
+        $form->addSubmit('Submit Your Apartment')->addClass('btn btn-block');
 
     }
 

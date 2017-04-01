@@ -492,3 +492,33 @@ body .navbar-transparent {
 /*.r-material-form .atk-row{
   margin-left: 0px !important;
 }*/
+
+/*hide placeholder*/
+.material_form  ::-webkit-input-placeholder { /* WebKit browsers */
+  color: white !important;
+}
+.material_form  :-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+  color: white !important;
+}
+.material_form  ::-moz-placeholder { /* Mozilla Firefox 19+ */
+  color: white !important;
+}
+.material_form :-ms-input-placeholder { /* Internet Explorer 10+ */
+  color: white !important;
+}
+
+.material_form textarea::-webkit-input-placeholder { /* WebKit browsers */
+  color: white !important;
+}
+
+.material_form textarea:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+  color: white !important;
+}
+
+.material_form textarea::-moz-placeholder { /* Mozilla Firefox 19+ */
+  color: white !important;
+}
+
+.material_form textarea:-ms-input-placeholder { /* Internet Explorer 10+ */
+  color: white !important;
+}
