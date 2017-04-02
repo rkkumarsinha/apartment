@@ -18,6 +18,10 @@ class Admin extends App_Frontend {
     public function init()
     {
         parent::init();
+
+        $this->today = date('Y-m-d');
+        $this->now = date('Y-m-d H:i:s');
+
         $this->api->pathfinder
             ->addLocation(array(
                 'addons' => array('vendor','shared/addons2','shared/addons'),
@@ -44,5 +48,6 @@ class Admin extends App_Frontend {
 
         $top_menu=$this->layout->add('Menu_Horizontal',null,'Top_Menu');
         $top_menu->addItem(['Configuration','icon'=>'ajust'],'/configuration');
+        $top_menu->addItem(['Apartment','icon'=>'ajust'],'/apartment');
     }
 }

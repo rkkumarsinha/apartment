@@ -35,16 +35,10 @@
 .title.material-form-group
 	h3 Apartment Admin Information
 .row
-	.col-md-12.col-sm-12.col-lg-12.col-xs-12
+	.col-md-6.col-lg-6.col-sm-12.col-xs-12
 		div.form-group.label-floating.is-empty.atk-form-row
 			label.control-label Apartment Admin Name
 			{$contact_persion_name}
-			span.material-input
-.row
-	.col-md-6.col-lg-6.col-sm-12.col-xs-12
-		div.form-group.label-floating.is-empty.atk-form-row
-			label.control-label Email Id
-			{$email_id}
 			span.material-input
 	.col-md-6.col-lg-6.col-sm-12.col-xs-12
 		div.form-group.label-floating.is-empty.atk-form-row
@@ -52,14 +46,25 @@
 			{$mobile_no}
 			span.material-input
 .row
-	.col-md-6.col-lg-6.col-sm-12.col-xs-12
+	.col-md-12.col-lg-12.col-sm-12.col-xs-12
 		div.form-group.label-floating.is-empty.atk-form-row
-			label.control-label Username
-			{$username}
+			label.control-label Email Id\ User Name
+			{$email_id}
 			span.material-input
+.row
+	//- .col-md-6.col-lg-6.col-sm-12.col-xs-12
+	//- 	div.form-group.label-floating.is-empty.atk-form-row
+	//- 		label.control-label Username
+	//- 		{$username}
+	//- 		span.material-input
 	.col-md-6.col-lg-6.col-sm-12.col-xs-12.atk-form-row
 		div.form-group.label-floating.is-empty
 			label.control-label Password
 			{$password}
+			span.material-input
+	.col-md-6.col-lg-6.col-sm-12.col-xs-12.atk-form-row
+		div.form-group.label-floating.is-empty
+			label.control-label Confirm Password
+			{$repassword}
 			span.material-input
 {$Content}

@@ -17,7 +17,7 @@ class Model_Member extends Model_Base_Table{
 		
 
 		$this->hasOne('Flat','flat_id');
-
+		
 		$this->add('filestore\Field_File','profile_picture_id');
 
 		$this->addField('name')->caption('Full Name');

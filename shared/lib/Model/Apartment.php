@@ -17,21 +17,24 @@ class Model_Apartment extends Model_Base_Table{
 				
 		$this->addField('name');
 		$this->addField('address');
-		$this->addField('city');
-		$this->addField('state');
-		$this->addField('country');
+
+		$this->hasOne('City','city_id');
+		$this->hasOne('State','state_id');
+		$this->hasOne('Country','country_id');
+
 		$this->addField('pincode');
 		$this->addField('code');
-		$this->addField('is_active');
+		$this->addField('is_active')->type('boolean')->defaultValue(0);
+		$this->addField('is_verified')->type('boolean')->defaultValue(0);
 
 		$this->addField('contact_persion_name');
 		$this->addField('contact_email_id');
 		$this->addField('contact_mobile_no');
 
 		$this->addField('inauguration_date')->type('date');
-		$this->addField('created_at')->type('date');
-		$this->addField('updated_at')->type('date');
-		$this->addField('starting_date')->type('date');
+		$this->addField('created_at')->type('datetime')->defaultValue($this->app->now);
+		$this->addField('updated_at')->type('datetime')->defaultValue($this->app->now);
+		$this->addField('starting_date')->type('date')->defaultValue($this->app->now);
 
 		// builder information
 		$this->addField('builder_name');
@@ -50,11 +53,34 @@ class Model_Apartment extends Model_Base_Table{
 		$this->addField('penalty_one_time');
 		$this->addField('penalty_recurring')->setValueList(['day'=>'Day','month'=>"Month"]);
 		
-
 		$this->hasMany('Flat','flat_id');
 		$this->hasMany('Staff','staff_id');
 		$this->hasMany('Transaction','transaction_id');
-
+		
 		$this->add('dynamic_model/Controller_AutoCreator');
+	}
+
+	function activate(){
+		if(!$this->loaded()) throw new \Exception("apartment model must loaded");
+
+		$this['is_active'] = true;
+		$this->save();
+		return $this;
+	}
+
+	function verify(){
+		if(!$this->loaded()) throw new \Exception("apartment model must loaded");
+		
+		$this['is_verified'] = true;
+		$this->save();
+		return $this;
+	}
+
+	function activateAndVerify(){
+		if(!$this->loaded()) throw new \Exception("apartment model must loaded", 1);
+
+		$this['is_verified'] = 1;
+        $this['is_active'] = 1;
+        return $this->save();
 	}
 }
