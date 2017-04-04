@@ -9,17 +9,21 @@ class Frontend extends ApiFrontend {
         
         $this->add('jUI');
 
-        if($this->app->page == "dashboard"){
-            $this->app->jui->addStylesheet('material-dashboard','.css');
-            $this->add('Layout_Dashboard');
-        }else{
-            $this->add('Layout_Apartment');
-            $this->app->jui->addStylesheet('material-kit','.css');
+        switch ($this->app->page) {
+            case 'dashboard':
+                $this->add('Layout_Dashboard');
+                $this->app->jui->addStylesheet('material-dashboard','.css');
+                break;
+            case 'login':
+                $this->add('Layout_ApartmentFlat');
+                $this->app->jui->addStylesheet('material-kit','.css');
+            break;
+            default:
+                $this->add('Layout_Apartment');
+                $this->app->jui->addStylesheet('material-kit','.css');
+            break;
         }
 
-        // you can also use Layout_Fluid
-
-        
         $this->dbConnect();
 
         $this->addLocation();

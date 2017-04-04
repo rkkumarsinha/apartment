@@ -470,7 +470,7 @@ body .header-filter:after {
 }
 .landing-page .navbar-transparent,
 .profile-page .navbar-transparent,
-.signup-page .navbar-transparent,
+.page-login .navbar-transparent,
 body .navbar-transparent {
   padding-top: 25px;
 }

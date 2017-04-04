@@ -1,0 +1,24 @@
+div.card.card-signup
+	div.header.header-primary.text-center
+		h4(style="color:white;") Sign Up
+		div.social-line(style="display:none;")
+			a.btn.btn-simple.btn-just-icon(href="#pablo")
+				i.fa.fa-facebook-square
+		p.text-divider Or Be Classical
+	div.content
+		div.input-group
+			span.input-group-addon
+				i.material-icons face
+			div.form-group.label-floating.is-empty.atk-form-row
+				label.control-label Username\ Email id
+				{$username}
+				span.material-input.form_error
+		div.input-group
+			span.input-group-addon
+				i.material-icons face
+			div.form-group.label-floating.is-empty.atk-form-row
+				label.control-label Password
+				{$password}
+				span.material-input.form_error
+	div.footer.text-center
+		a(href="#pablo" class="btn btn-simple btn-primary btn-lg") Get Started
