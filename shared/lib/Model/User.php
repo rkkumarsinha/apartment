@@ -27,6 +27,7 @@ class Model_User extends Model_Base_Table{
 		$this->addField('is_blocked')->type('boolean')->defaultValue(0);
 		$this->addField('is_active')->type('boolean')->defaultValue(0);
 		$this->addField('last_otp')->type('datetime');
+		$this->addField('mobile_no');
 
 		$this->add('dynamic_model/Controller_AutoCreator');
 	}
@@ -41,16 +42,32 @@ class Model_User extends Model_Base_Table{
 		return $this->save();
 	}
 
-	function sendWelcomeAndVerification(){
+	function sendVerification(){
 		if(!$this->loaded())throw new \Exception("user model must loaded", 1);
 		
-		// 
-		// $to = "techrakesh91@gmail.com";
-		// $message = "message body come here";
-		// $subject = "subject";
+		$template = $this->add('Model_Template');
+		$template->addCondition('name','ACCOUNTVERIFICATION');
+		$template->tryLoadAny();
+		if(!$template->loaded())
+			throw new \Exception("email template not found");
+		
+		$subject = $template['subject'];
+		$body = $template['body'];
+		$to = $this['username'];
 
-		// $out_box = $this->add('Model_Outbox');
-		// $out_box->sendEmail($to,$subject,$message,$this);
+		$this['hash'] = strtoupper(substr(md5(rand(111111,999999)),5,6));
+        $this['last_otp'] = $this->app->now;
+        $this->save();
+        
+        $url = $this->api->url('addapartment',['todo'=>'verification','hash'=>$this['hash'],'user'=>$this->id,'email'=>$this['username']]);
+        $body = str_replace("{activation_link}", $url, $body);
+
+		$out_box = $this->add('Model_Outbox');
+		$out_box->sendEmail($to,$subject,$body,$this);
+	}
+
+	function isEmailExist(){
 
 	}
+
 }

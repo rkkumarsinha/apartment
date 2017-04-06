@@ -12,7 +12,9 @@ class Model_Configuration extends Model_Base_Table{
 		$this->addField('smtp_secure')->enum(['ssl','tls']);
 		$this->addField('port');
 		$this->addField('from_email')->hint('your email id ie. xyz@doiman.com');
+		$this->addField('from_name')->hint('your company or name');
 		$this->addField('reply_to')->hint('your email id ie. xyz@doiman.com');
+		$this->addField('reply_name')->hint('your company or name');
 		$this->addField('footer')->type('text');
 
 		// sms api setting

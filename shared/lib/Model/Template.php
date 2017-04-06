@@ -1,7 +1,7 @@
 <?php
 
-class Model_EmailTemplate extends Model_Base_Table{
-	public $table = "email_template";
+class Model_Template extends Model_Base_Table{
+	public $table = "template";
 
 	function init(){
 		parent::init();

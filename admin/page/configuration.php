@@ -6,11 +6,12 @@ class page_configuration extends Page{
 		parent::init();
 
 		$tabs = $this->add('Tabs');
-		$tab_template = $tabs->addTab('Email Templates');
+		$tab_template = $tabs->addTab('Templates');
+		$tab_emailsetting = $tabs->addTab('Email Setting');
 		$tab_location = $tabs->addTab('Location');
 		
 		$crud = $tab_template->add('CRUD');
-		$crud->setModel('EmailTemplate');
+		$crud->setModel('Template');
 
 		$location_tabs = $tab_location->add('Tabs');
 
@@ -26,5 +27,7 @@ class page_configuration extends Page{
 
 		$crud_city = $tab_city->add('CRUD');
 		$crud_city->setModel('City');
+
+		$tab_emailsetting->add('CRUD')->setModel('Configuration');
 	}
 }

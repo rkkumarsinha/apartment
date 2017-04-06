@@ -41,7 +41,9 @@ class page_addapartment extends basePage{
         
         $form->addField('registered_email_id')->validate('email')->set($user_model['username']);
         $form->addField('verification_code')->validate('required');
-        $form->addSubmit('Verify Account');
+        $resend_btn = $form->addSubmit('Not Received, send Again')->addClass('btn btn-success');
+        $verify_btn = $form->addSubmit('Verify Account');
+
         if($form->isSubmitted()){
             // check hash code of user is same as verification code
 
@@ -102,7 +104,7 @@ class page_addapartment extends basePage{
         // admin section
         $form->addField('contact_persion_name')->validate('required');
         $form->addField('email_id')->validate('email');
-        $form->addField('mobile_no')->validate('required');
+        $form->addField('mobile_no')->validate('indianMobile');
         // $form->addField('username')->validate('email');
         $form->addField('password','password')->validate('len|gt|6');
         $form->addField('password','repassword')->validate('len|gt|6');
@@ -119,6 +121,18 @@ class page_addapartment extends basePage{
             if($form['password'] != $form['repassword'])
                 $form->error('password','password and confirm password must be same');
             
+            // check user emai id exist or not 
+            $user = $this->add('Model_User');
+            $user->addCondition(
+                    $user->dsql()->orExpr()
+                        ->where('username',$form['email'])
+                        ->where('mobile_no',$form['mobile_no'])
+                );
+            $user->tryLoadAny();
+            if($user->loaded()){
+                $form->error('email',"username/email is already associated with other apartment");
+            }
+
             // save apartment
             $apartment = $this->add('Model_Apartment');
             $apartment['name'] = $form['apartment_name'];
@@ -142,16 +156,17 @@ class page_addapartment extends basePage{
             $user['apartment_id'] = $apartment->id;
             $user['username'] = $form['email_id'];
             $user['password'] = $form['password'];
+            $user['mobile_no'] = $form['mobile_no'];
             $user['scope'] = 'ApartmentAdmin';
             $user->save();
 
             try{
-                $user->sendWelcomeAndVerification();
+                $user->sendVerification();
             }catch(Exception $e){
                 
             }
             
-            $this->app->redirect($this->app->url(null,['todo'=>'verification','of'=>$apartment->id,'user'=>$user->id]));
+            $this->app->redirect($this->app->url(null,['todo'=>'verification','hash'=>$user['hash'],'user'=>$user->id,'of'=>$apartment->id]));
         } 
     }
 

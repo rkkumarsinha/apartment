@@ -19,26 +19,26 @@ class Model_Outbox extends Model_Base_Table{
 		$this->add('dynamic_model/Controller_AutoCreator');
 	}
 
-	function createNew($name,$to_member_id,$subject,$body,$type,$apartment_id,$to_member_id,$from_member_id,$user = null){
+	// function createNew($name,$to_member_id,$subject,$body,$type,$apartment_id,$to_member_id,$from_member_id,$user = null){
 
-		$this['name'] = $name;
-		$this['subject'] = $subject;
-		$this['body'] = $body;
-		$this['type'] = $type;
-		$this['apartment_id'] = $apartment_id;
-		$this['to_member_id'] = $to_member_id;
-		$this['from_member_id'] = $from_member_id;
-		if($user)
-			$this['user_id'] = $user->id;
-		$this->save();
-	}
+	// 	$this['name'] = $name;
+	// 	$this['subject'] = $subject;
+	// 	$this['body'] = $body;
+	// 	$this['type'] = $type;
+	// 	$this['apartment_id'] = $apartment_id;
+	// 	$this['to_member_id'] = $to_member_id;
+	// 	$this['from_member_id'] = $from_member_id;
+	// 	if($user)
+	// 		$this['user_id'] = $user->id;
+	// 	$this->save();
+	// }
 
 	function sendEmail($to="techrakesh91@gmail.com",$subject="Here is the subject",$body="This is the HTML message body <b>in bold!{activation_link}</b>",$user_model){
 		
 		if(!$this->app->getConfig('email_send'))
 			return false;
-				
-		$config = $this->add('Model_Configuration')->tryLoad(1);
+		
+		$config = $this->add('Model_Configuration')->tryLoadAny();
 		$mail = new PHPMailer;
 		// $mail->SMTPDebug = 2;
         $mail->isSMTP();
@@ -49,21 +49,19 @@ class Model_Outbox extends Model_Base_Table{
         $mail->SMTPSecure = $config['smtp_secure'];             // Enable TLS encryption, `ssl` also accepted
         $mail->Port = $config['port']; 
 
-        $mail->setFrom($config['from_email'], 'HungryDunia');
-        $mail->addReplyTo($config['reply_to'], 'Information');
+        $mail->setFrom($config['from_email'], $config['from_name']);
+        $mail->addReplyTo($config['reply_to'], $config['reply_name']);
 
-        $mail->addAddress($to, $user_model['name']);     // Add a recipient
+        $mail->addAddress($to, "Member");     // Add a recipient
         // $mail->addAddress('techrakesh91@gmail.com');               // Name is optional
         // $mail->addCC('cc@example.com');
         // $mail->addBCC('bcc@example.com');
-
         // setting up the image as embedded
         // http://hungrydunia.in/frontend/public/assets/img/hungrydunia/logo.png
         // addEmbeddedImage($path, $cid, $name = '', $encoding = 'base64', $type = '', $disposition = 'inline')
         $mail->Subject = $subject;
         $mail->msgHTML($body);
         $mail->IsHTML(true);
-
 
         $mail->AltBody = strip_tags($body);
         if(!$mail->send()) {

@@ -4,7 +4,7 @@ class Controller_Validator extends \Controller_Validator{
 
 	function init(){
 		parent::init();
-
+        
 	}
 
 	function rule_email($a){   
@@ -17,5 +17,11 @@ class Controller_Validator extends \Controller_Validator{
         if ($a==='' || $a===false || $a===null) {
             return $this->fail('must not be empty');
         }
+    }
+
+    function rule_indianMobile($a,$field){
+        $a = trim($a);
+        if(strlen($a) != 10 || !in_array(substr($a,0,1), [8,9,7]))
+            return $this->fail('must be a 10 digit number and start from 9,8 or 7'); 
     }
 }
