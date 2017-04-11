@@ -70,4 +70,8 @@ class Model_User extends Model_Base_Table{
 
 	}
 
+	function updateLastDate(){
+		$this['last_login_date'] = $this->app->now;
+		return $this->save();
+	}
 }

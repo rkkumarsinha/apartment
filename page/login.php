@@ -23,6 +23,8 @@ class page_login extends basePage{
         if($form->isSubmitted()){
             if($id = $this->app->auth->verifyCredentials($form['username'],$form['password'])){
                 $this->app->auth->loginByID($id);
+                $this->app->auth->model->updateLastDate();
+                
                 $this->app->redirect($this->app->url('dashboard'));
             }
             $form->getElement('password')->displayFieldError('Incorrect login information');
