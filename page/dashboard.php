@@ -16,6 +16,7 @@ class page_dashboard extends basePage{
 
         $user_name = $this->app->auth->model->id;
         // $this->add('View_Info')->set($user_name);
-
+        $this->add('View_Info')->set('Welcome to admin panel');
     }
+
 }
