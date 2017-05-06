@@ -14,39 +14,39 @@
 			</div>
 
 	    	<div class="sidebar-wrapper">
-	            <ul class="nav">
-	                <li class="active">
-	                    <a href="#">
+	            <ul class="nav apartment-menu">
+	                <li class="{$dashboard_menu}">
+	                    <a href="dashboard" data-menu="dashboard">
 	                        <i class="material-icons">dashboard</i>
 	                        <p>Dashboard</p>
 	                    </a>
 	                </li>
-	                <li>
-	                    <a href="#">
+	                <li class="{$member_menu}">
+	                    <a href="member" data-menu="member">
 	                        <i class="material-icons">person</i>
 	                        <p>Manage Member</p>
 	                    </a>
 	                </li>
-	                <li>
-	                    <a href="#">
+	                <li class="{$report_menu}">
+	                    <a href="report" data-menu="report">
 	                        <i class="material-icons">content_paste</i>
 	                        <p>Report</p>
 	                    </a>
 	                </li>
-	                <li>
-	                    <a href="#">
+	                <li class="{$setting_menu}">
+	                    <a href="setting" data-menu="setting">
 	                        <i class="material-icons">settings</i>
 	                        <p>Settings</p>
 	                    </a>
 	                </li>
-	                <li>
-	                    <a href="#">
+	                <li class="{$notification_menu}">
+	                    <a href="notification" data-menu="notification">
 	                        <i class="material-icons text-gray">notifications</i>
 	                        <p>Notifications</p>
 	                    </a>
 	                </li>
-					<li class="active-pro">
-	                    <a href="#">
+					<li class="active-pro {$budycontact_menu}">
+	                    <a href="budycontact" data-menu="budycontact">
 	                        <i class="material-icons">unarchive</i>
 	                        <p>Contact to R-Buddy</p>
 	                    </a>
@@ -66,6 +66,7 @@
 	            </ul>
 	            {$left_menu}
 	    	</div>
+	    	<div class="sidebar-background" style="background-image: url(templates/assets/img/sidebar-1.jpg) "></div>
 	    </div>
 
 	    <div class="main-panel">

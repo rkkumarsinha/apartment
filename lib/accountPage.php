@@ -1,10 +1,8 @@
 <?php
 
-class basePage extends Page{
+class accountPage extends Page{
 	
     function init(){
     	parent::init();
-
-    	
     }
 }

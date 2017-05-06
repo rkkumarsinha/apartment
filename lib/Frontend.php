@@ -8,11 +8,12 @@ class Frontend extends ApiFrontend {
         $this->now = date('Y-m-d H:i:s');
         
         $this->add('jUI');
-
+        
         switch ($this->app->page) {
-            case 'dashboard':
+            case in_array($this->app->page,['dashboard','member','report','setting','notification','budycontact']):
                 $this->add('Layout_Dashboard');
                 $this->app->jui->addStylesheet('material-dashboard','.css');
+                $this->app->layout->template->trySet($this->app->page."_menu",'active');
                 break;
             case 'login':
                 $this->add('Layout_ApartmentFlat');
@@ -56,6 +57,6 @@ class Frontend extends ApiFrontend {
                 'php' => array('vendor','shared/lib','shared'),
                 ''
             ))
-            ->setBasePath($this->pathfinder->base_location->getPath() );
+            ->setBasePath($this->pathfinder->base_location->getPath());
     }
 }

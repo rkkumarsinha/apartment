@@ -26,8 +26,9 @@ class Model_User extends Model_Base_Table{
 		$this->addField('is_verified')->type('boolean')->defaultValue(0);
 		$this->addField('is_blocked')->type('boolean')->defaultValue(0);
 		$this->addField('is_active')->type('boolean')->defaultValue(0);
-		$this->addField('last_otp')->type('datetime');
+		$this->addField('last_otp');
 		$this->addField('mobile_no');
+		$this->addField('created_at')->type('date')->defaultValue($this->app->now);
 
 		$this->add('dynamic_model/Controller_AutoCreator');
 	}
@@ -56,7 +57,7 @@ class Model_User extends Model_Base_Table{
 		$to = $this['username'];
 
 		$this['hash'] = strtoupper(substr(md5(rand(111111,999999)),5,6));
-        $this['last_otp'] = $this->app->now;
+        $this['last_otp'] = $this->id.rand(11119,99999);
         $this->save();
         
         $url = $this->api->url('addapartment',['todo'=>'verification','hash'=>$this['hash'],'user'=>$this->id,'email'=>$this['username']]);

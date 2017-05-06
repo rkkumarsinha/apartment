@@ -23,11 +23,11 @@ class page_addapartment extends basePage{
     }
 
     function addVerificationForm(){
-        $this->add('View_Success',null,'center')->set('Verification link has been send to email id');
 
 
         $apartment_id = $_GET['of']?:0; // for apartment id
         $user_id = $_GET['user']?:0; // user id
+        $hash = $_GET['hash']; // hash
 
         $apartment_model = $this->add('Model_Apartment')->tryLoad($apartment_id);
         if(!$apartment_model->loaded())
@@ -37,12 +37,19 @@ class page_addapartment extends basePage{
         if(!$user_model->loaded())
             throw new \Exception("user model must loaded", 1);
 
+        if($user_model['hash'] != $hash){
+            $this->add('View_Error',null,'center')->set("activation link expire, please try again");
+            $this->add('Button',null,'center')->set('Go to Home Page')->addClass('btn btn-block')->js('click',$this->app->redirect('index'));
+            return;
+        }
+
+        $this->add('View_Success',null,'center')->setHTML('Verification link has been send to email id: <b>'.$user_model['username']."</b>");
         $form = $this->add('Form',null,'center');
         
         $form->addField('registered_email_id')->validate('email')->set($user_model['username']);
         $form->addField('verification_code')->validate('required');
-        $resend_btn = $form->addSubmit('Not Received, send Again')->addClass('btn btn-success');
         $verify_btn = $form->addSubmit('Verify Account');
+        $resend_btn = $form->addSubmit('Not Received, send Again')->addClass('btn btn-danger');
 
         if($form->isSubmitted()){
             // check hash code of user is same as verification code
@@ -53,6 +60,7 @@ class page_addapartment extends basePage{
             $this->app->stickyForget('of');
             $this->app->stickyForget('user');
             $this->app->stickyForget('todo');
+            $this->app->stickyForget('hash');
 
             // login by id
             $this->app->auth->loginById($user_model->id);
@@ -125,45 +133,50 @@ class page_addapartment extends basePage{
             $user = $this->add('Model_User');
             $user->addCondition(
                     $user->dsql()->orExpr()
-                        ->where('username',$form['email'])
+                        ->where('username',$form['email_id'])
                         ->where('mobile_no',$form['mobile_no'])
                 );
             $user->tryLoadAny();
             if($user->loaded()){
-                $form->error('email',"username/email is already associated with other apartment");
+                $form->error('email_id',"username/email or mobile number is already associated with other apartment");
             }
 
-            // save apartment
-            $apartment = $this->add('Model_Apartment');
-            $apartment['name'] = $form['apartment_name'];
-            $apartment['city_id'] = $form['city'];
-            $apartment['state_id'] = $form['state'];
-            $apartment['country_id'] = $form['country'];
-            $apartment['pincode'] = $form['pincode'];
-            $apartment['contact_persion_name'] = $form['contact_persion_name'];
-            $apartment['contact_email_id'] = $form['email_id'];
-            $apartment['contact_mobile_no'] = $form['mobile_no'];
-            $apartment['is_active'] = 0;
-            $apartment['is_verified'] = 0;
-            $apartment->save();
-
-            // save
-            $user = $this->add('Model_User');
-            $this->add('BasicAuth')
-                ->usePasswordEncryption('md5')
-                ->addEncryptionHook($user);
-
-            $user['apartment_id'] = $apartment->id;
-            $user['username'] = $form['email_id'];
-            $user['password'] = $form['password'];
-            $user['mobile_no'] = $form['mobile_no'];
-            $user['scope'] = 'ApartmentAdmin';
-            $user->save();
-
             try{
+                $this->api->db->beginTransaction();
+                // save apartment
+                $apartment = $this->add('Model_Apartment');
+                $apartment['name'] = $form['apartment_name'];
+                $apartment['city_id'] = $form['city'];
+                $apartment['state_id'] = $form['state'];
+                $apartment['country_id'] = $form['country'];
+                $apartment['pincode'] = $form['pincode'];
+                $apartment['contact_persion_name'] = $form['contact_persion_name'];
+                $apartment['contact_email_id'] = $form['email_id'];
+                $apartment['contact_mobile_no'] = $form['mobile_no'];
+                $apartment['is_active'] = 0;
+                $apartment['is_verified'] = 0;
+                $apartment['created_at'] = $this->app->now;
+                $apartment->save();
+
+                // save
+                $user = $this->add('Model_User');
+                $this->add('BasicAuth')
+                    ->usePasswordEncryption('md5')
+                    ->addEncryptionHook($user);
+
+                $user['apartment_id'] = $apartment->id;
+                $user['username'] = $form['email_id'];
+                $user['password'] = $form['password'];
+                $user['mobile_no'] = $form['mobile_no'];
+                $user['scope'] = 'ApartmentAdmin';
+                $user->save();
+
                 $user->sendVerification();
-            }catch(Exception $e){
-                
+
+                $this->app->db->commit();
+            }catch(\Exception $e){
+                $this->app->db->rollback();
+                $form->js()->univ()->errorMessage('something went wrong, please try again (description: '.$e->getMessage()." )")->execute();
             }
             
             $this->app->redirect($this->app->url(null,['todo'=>'verification','hash'=>$user['hash'],'user'=>$user->id,'of'=>$apartment->id]));

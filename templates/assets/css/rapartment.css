@@ -369,6 +369,10 @@
 #navbar .navbar{
     border-radius: 0;
 }
+.navbar-fixed-top, .navbar-fixed-bottom{
+  z-index: 10 !important;
+}
+
 .section-tabs{
     background: #EEEEEE;
 }

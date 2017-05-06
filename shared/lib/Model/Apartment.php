@@ -50,7 +50,7 @@ class Model_Apartment extends Model_Base_Table{
 		// penalty
 		$this->addField('penalty');
 		$this->addField('penalty_apply_after_days_from_last_date_of_submission');
-		$this->addField('penalty_one_time');
+		$this->addField('penalty_one_time')->type('boolean')->defaultValue(0);
 		$this->addField('penalty_recurring')->setValueList(['day'=>'Day','month'=>"Month"]);
 		
 		$this->hasMany('Flat','flat_id');

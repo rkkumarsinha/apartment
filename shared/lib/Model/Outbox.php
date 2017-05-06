@@ -34,10 +34,12 @@ class Model_Outbox extends Model_Base_Table{
 	// }
 
 	function sendEmail($to="techrakesh91@gmail.com",$subject="Here is the subject",$body="This is the HTML message body <b>in bold!{activation_link}</b>",$user_model){
-		
+		if($this->app->getConfig('test_mode'))
+			return true;
+
 		if(!$this->app->getConfig('email_send'))
 			return false;
-		
+
 		$config = $this->add('Model_Configuration')->tryLoadAny();
 		$mail = new PHPMailer;
 		// $mail->SMTPDebug = 2;
@@ -66,7 +68,8 @@ class Model_Outbox extends Model_Base_Table{
         $mail->AltBody = strip_tags($body);
         if(!$mail->send()) {
             // echo 'Message could not be sent.';
-            echo 'Mailer Error: ' . $mail->ErrorInfo;
+            throw new \Exception("Mailer Error ".$mail->ErrorInfo);
+            // echo 'Mailer Error: ' . $mail->ErrorInfo;
             return false;
         } else {
             return true;

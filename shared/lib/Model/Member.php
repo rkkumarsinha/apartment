@@ -31,8 +31,8 @@ class Model_Member extends Model_Base_Table{
 		$this->addField('is_admin')->type('boolean')->defaultValue('false');
 		$this->addField('relation_with_admin')->enum(['Father','Mother','Sister','Brother','Daughter','Son','Grand Father','Grand Mother','Uncle','Aunty','Nephew','Other']);
 
-		$this->addField('created_at')->type('date');
-		$this->addField('updated_at')->type('date');
+		$this->addField('created_at')->type('date')->defaultValue($this->app->now);
+		$this->addField('updated_at')->type('date')->defaultValue($this->app->now);
 
 		$this->addField('about_you')->type('boolean');
 		
